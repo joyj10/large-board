@@ -1,4 +1,4 @@
-package com.large.board.config;
+package com.large.board.common.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

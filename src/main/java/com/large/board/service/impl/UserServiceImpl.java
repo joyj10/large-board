@@ -1,14 +1,17 @@
 package com.large.board.service.impl;
 
+import com.large.board.converter.UserConverter;
 import com.large.board.domain.entity.UserEntity;
 import com.large.board.domain.repository.UserRepository;
 import com.large.board.dto.UserDTO;
 import com.large.board.dto.request.UserSignUpRequest;
-import com.large.board.exception.DuplicateIdException;
+import com.large.board.common.exception.DuplicateIdException;
+import com.large.board.common.exception.UnauthorizedException;
 import com.large.board.service.UserService;
-import com.large.board.utils.PasswordEncryptor;
+import com.large.board.common.utils.PasswordEncryptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -30,8 +33,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(String id, String password) {
-        // 로그인 로직 구현
-        return null;
+        UserEntity userEntity = userRepository.findActiveUser(id)
+                .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패했습니다."));
+
+        // password 유효성
+        if (!PasswordEncryptor.matches(password, userEntity.getPassword())) {
+            throw new UnauthorizedException("로그인에 실패했습니다.");
+        }
+
+        return UserConverter.toDto(userEntity);
     }
 
     @Override

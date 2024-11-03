@@ -1,7 +1,7 @@
 package com.large.board.domain.entity;
 
-import com.large.board.domain.code.UserStatus;
-import com.large.board.utils.PasswordEncryptor;
+import com.large.board.common.code.UserStatus;
+import com.large.board.common.utils.PasswordEncryptor;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

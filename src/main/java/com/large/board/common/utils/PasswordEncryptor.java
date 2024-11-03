@@ -1,4 +1,4 @@
-package com.large.board.utils;
+package com.large.board.common.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.large.board.config;
+package com.large.board.common.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;

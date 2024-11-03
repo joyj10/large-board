@@ -1,15 +1,16 @@
 package com.large.board.dto;
 
-import com.large.board.domain.code.UserStatus;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.large.board.common.code.UserStatus;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private Long id;
     private String userId;
