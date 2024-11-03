@@ -76,4 +76,10 @@ public class UserEntity {
         String encryptPassword = PasswordEncryptor.encrypt(afterPassword);
         this.password = encryptPassword;
     }
+
+    // 사용자 삭제
+    public void delete() {
+        this.status = UserStatus.DELETED;
+    }
+
 }

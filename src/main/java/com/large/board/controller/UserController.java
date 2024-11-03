@@ -1,6 +1,7 @@
 package com.large.board.controller;
 
 import com.large.board.common.utils.SessionUtil;
+import com.large.board.dto.request.UserDeleteRequest;
 import com.large.board.dto.request.UserLoginRequest;
 import com.large.board.dto.request.UserSignUpRequest;
 import com.large.board.dto.request.UserUpdatePasswordRequest;
@@ -80,6 +81,14 @@ public class UserController {
         UserInfo userInfo = userService.getUserInfo(id);
 
         return ResponseEntity.ok(userInfo);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteId(@RequestBody UserDeleteRequest userDeleteRequest,
+                                         HttpSession session) {
+        Long id = getId(session);
+        userService.deleteId(id, userDeleteRequest.getPassword());
+        return ResponseEntity.noContent().build();
     }
 
 }

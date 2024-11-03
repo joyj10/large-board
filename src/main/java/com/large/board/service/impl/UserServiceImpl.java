@@ -58,26 +58,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo getUserInfo(Long id) {
-        UserEntity userEntity = userRepository.findActiveUserById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
+        UserEntity userEntity = getUserEntity(id);
         return UserConverter.toUserInfo(userEntity);
     }
 
     @Override
     @Transactional
     public void updatePassword(Long id, String beforePassword, String afterPassword) {
-        UserEntity userEntity = userRepository.findActiveUserById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
+        UserEntity userEntity = getUserEntity(id);
 
-        validPassword(beforePassword, userEntity, "비밀번호가 일치하지 않습니다.");
+        validPassword(beforePassword, userEntity, "변경 불가능합니다.");
 
         // 새로운 비밀번호 변경
         userEntity.updatePassword(afterPassword);
     }
 
+    private UserEntity getUserEntity(Long id) {
+        return userRepository.findActiveUserById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
+    }
+
     @Override
     @Transactional
     public void deleteId(Long id, String password) {
-        // 계정 삭제 로직 구현
+        UserEntity userEntity = getUserEntity(id);
+        validPassword(password, userEntity, "삭제를 진행할 수 없습니다.");
+        userEntity.delete();
     }
 }
