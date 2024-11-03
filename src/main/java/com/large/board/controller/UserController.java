@@ -1,11 +1,11 @@
 package com.large.board.controller;
 
-import com.large.board.dto.UserDTO;
+import com.large.board.common.utils.SessionUtil;
 import com.large.board.dto.request.UserLoginRequest;
 import com.large.board.dto.request.UserSignUpRequest;
 import com.large.board.dto.response.LoginResponse;
+import com.large.board.dto.response.UserInfo;
 import com.large.board.service.impl.UserServiceImpl;
-import com.large.board.common.utils.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/sign-in")
     public ResponseEntity<LoginResponse> login(@RequestBody UserLoginRequest userLoginRequest,
                                    HttpSession session) {
-        UserDTO loginUser = userService.login(userLoginRequest.getUserId(), userLoginRequest.getPassword());
+        UserInfo loginUser = userService.login(userLoginRequest.getUserId(), userLoginRequest.getPassword());
 
         setSessionBasedOnRole(session, loginUser);
 
@@ -39,12 +39,23 @@ public class UserController {
     }
 
     // 사용자 역할에 따라 세션에 로그인 정보 저장
-    private static void setSessionBasedOnRole(HttpSession session, UserDTO loginUser) {
+    private static void setSessionBasedOnRole(HttpSession session, UserInfo loginUser) {
         if (loginUser.isAdmin()) {
-            SessionUtil.setLoginAdminId(session, loginUser.getUserId());
+            SessionUtil.setLoginAdminId(session, String.valueOf(loginUser.getId()));
         } else {
-            SessionUtil.setLoginMemberId(session, loginUser.getUserId());
+            SessionUtil.setLoginMemberId(session,  String.valueOf(loginUser.getId()));
         }
+    }
+
+    @GetMapping("/my-info")
+    public ResponseEntity<UserInfo> getMemberInfo(HttpSession session) {
+        String id = SessionUtil.getLoginMemberId(session);
+        if (id == null) {
+            id = SessionUtil.getLoginAdminId(session);
+        }
+
+        UserInfo userDto = userService.getUserInfo(id);
+        return ResponseEntity.ok(userDto);
     }
 
 }

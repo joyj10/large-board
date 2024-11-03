@@ -1,14 +1,14 @@
 package com.large.board.service.impl;
 
+import com.large.board.common.exception.DuplicateIdException;
+import com.large.board.common.exception.UnauthorizedException;
+import com.large.board.common.utils.PasswordEncryptor;
 import com.large.board.converter.UserConverter;
 import com.large.board.domain.entity.UserEntity;
 import com.large.board.domain.repository.UserRepository;
-import com.large.board.dto.UserDTO;
 import com.large.board.dto.request.UserSignUpRequest;
-import com.large.board.common.exception.DuplicateIdException;
-import com.large.board.common.exception.UnauthorizedException;
+import com.large.board.dto.response.UserInfo;
 import com.large.board.service.UserService;
-import com.large.board.common.utils.PasswordEncryptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserSignUpRequest userProfile) {
-        boolean isDuplicatedId = isDuplicatedId(userProfile.getUserId());
+        boolean isDuplicatedId = isDuplicatedUserId(userProfile.getUserId());
         if (isDuplicatedId) {
             throw new DuplicateIdException("중복된 아이디입니다.");
         }
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(String id, String password) {
-        UserEntity userEntity = userRepository.findActiveUser(id)
+    public UserInfo login(String id, String password) {
+        UserEntity userEntity = userRepository.findActiveUserByUserId(id)
                 .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패했습니다."));
 
         // password 유효성
@@ -41,18 +41,19 @@ public class UserServiceImpl implements UserService {
             throw new UnauthorizedException("로그인에 실패했습니다.");
         }
 
-        return UserConverter.toDto(userEntity);
+        return UserConverter.toUserInfo(userEntity);
     }
 
     @Override
-    public boolean isDuplicatedId(String id) {
-        return userRepository.countByUserId(id) > 0;
+    public boolean isDuplicatedUserId(String userId) {
+        return userRepository.countByUserId(userId) > 0;
     }
 
     @Override
-    public UserDTO getUserInfo(String userId) {
-        // 사용자 정보 조회 로직 구현
-        return null;
+    public UserInfo getUserInfo(String id) {
+        UserEntity userEntity = userRepository.findActiveUserById(Long.valueOf(id))
+                .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
+        return UserConverter.toUserInfo(userEntity);
     }
 
     @Override

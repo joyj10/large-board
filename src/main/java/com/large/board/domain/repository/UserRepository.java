@@ -10,5 +10,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     long countByUserId(String userId);
 
     @Query("select u from UserEntity u where u.userId = :userId and u.status != 'DELETED'")
-    Optional<UserEntity> findActiveUser(String userId);
+    Optional<UserEntity> findActiveUserByUserId(String userId);
+
+    @Query("select u from UserEntity u where u.id = :id and u.status != 'DELETED'")
+    Optional<UserEntity> findActiveUserById(Long id);
 }
