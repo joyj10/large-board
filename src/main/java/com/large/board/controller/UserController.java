@@ -3,6 +3,7 @@ package com.large.board.controller;
 import com.large.board.common.utils.SessionUtil;
 import com.large.board.dto.request.UserLoginRequest;
 import com.large.board.dto.request.UserSignUpRequest;
+import com.large.board.dto.request.UserUpdatePasswordRequest;
 import com.large.board.dto.response.LoginResponse;
 import com.large.board.dto.response.UserInfo;
 import com.large.board.service.impl.UserServiceImpl;
@@ -49,18 +50,36 @@ public class UserController {
 
     @GetMapping("/my-info")
     public ResponseEntity<UserInfo> getMemberInfo(HttpSession session) {
-        String id = SessionUtil.getLoginMemberId(session);
-        if (id == null) {
-            id = SessionUtil.getLoginAdminId(session);
-        }
+        Long id = getId(session);
 
         UserInfo userDto = userService.getUserInfo(id);
         return ResponseEntity.ok(userDto);
     }
 
+    private Long getId(HttpSession session) {
+        String id = SessionUtil.getLoginMemberId(session);
+        if (id == null) {
+            id = SessionUtil.getLoginAdminId(session);
+        }
+        return Long.valueOf(id);
+    }
+
     @PutMapping("/logout")
     public void logout(HttpSession session) {
         SessionUtil.clear(session);
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<UserInfo> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
+                                                       HttpSession session) {
+        Long id = getId(session);
+        String beforePassword = userUpdatePasswordRequest.getBeforePassword();
+        String afterPassword = userUpdatePasswordRequest.getAfterPassword();
+
+        userService.updatePassword(id, beforePassword, afterPassword);
+        UserInfo userInfo = userService.getUserInfo(id);
+
+        return ResponseEntity.ok(userInfo);
     }
 
 }

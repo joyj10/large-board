@@ -3,6 +3,7 @@ package com.large.board.domain.entity;
 import com.large.board.common.code.UserStatus;
 import com.large.board.common.utils.PasswordEncryptor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -68,5 +69,11 @@ public class UserEntity {
                 .nickname(nickname)
                 .status(UserStatus.ACTIVE) // 기본 상태 설정
                 .build();
+    }
+
+    // 비밀번호 변경
+    public void updatePassword(@NotBlank String afterPassword) {
+        String encryptPassword = PasswordEncryptor.encrypt(afterPassword);
+        this.password = encryptPassword;
     }
 }

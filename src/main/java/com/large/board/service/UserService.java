@@ -11,9 +11,9 @@ public interface UserService {
 
     boolean isDuplicatedUserId(String userId);
 
-    UserInfo getUserInfo(String id);
+    UserInfo getUserInfo(Long id);
 
-    void updatePassword(String id, String beforePassword, String afterPassword);
+    void updatePassword(Long id, String beforePassword, String afterPassword);
 
-    void deleteId(String id, String password);
+    void deleteId(Long id, String password);
 }

@@ -13,15 +13,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void register(UserSignUpRequest userProfile) {
         boolean isDuplicatedId = isDuplicatedUserId(userProfile.getUserId());
         if (isDuplicatedId) {
@@ -32,16 +35,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo login(String id, String password) {
-        UserEntity userEntity = userRepository.findActiveUserByUserId(id)
+    public UserInfo login(String userId, String password) {
+        UserEntity userEntity = userRepository.findActiveUserByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패했습니다."));
 
-        // password 유효성
-        if (!PasswordEncryptor.matches(password, userEntity.getPassword())) {
-            throw new UnauthorizedException("로그인에 실패했습니다.");
-        }
+        validPassword(password, userEntity, "로그인에 실패했습니다.");
 
         return UserConverter.toUserInfo(userEntity);
+    }
+
+    // password 유효성
+    private static void validPassword(String password, UserEntity userEntity, String message) {
+        if (!PasswordEncryptor.matches(password, userEntity.getPassword())) {
+            throw new UnauthorizedException(message);
+        }
     }
 
     @Override
@@ -50,19 +57,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo getUserInfo(String id) {
-        UserEntity userEntity = userRepository.findActiveUserById(Long.valueOf(id))
+    public UserInfo getUserInfo(Long id) {
+        UserEntity userEntity = userRepository.findActiveUserById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
         return UserConverter.toUserInfo(userEntity);
     }
 
     @Override
-    public void updatePassword(String id, String beforePassword, String afterPassword) {
-        // 비밀번호 업데이트 로직 구현
+    @Transactional
+    public void updatePassword(Long id, String beforePassword, String afterPassword) {
+        UserEntity userEntity = userRepository.findActiveUserById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
+
+        validPassword(beforePassword, userEntity, "비밀번호가 일치하지 않습니다.");
+
+        // 새로운 비밀번호 변경
+        userEntity.updatePassword(afterPassword);
     }
 
     @Override
-    public void deleteId(String id, String password) {
+    @Transactional
+    public void deleteId(Long id, String password) {
         // 계정 삭제 로직 구현
     }
 }
