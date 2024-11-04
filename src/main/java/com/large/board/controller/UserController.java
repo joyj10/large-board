@@ -57,14 +57,6 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    private Long getId(HttpSession session) {
-        String id = SessionUtil.getLoginMemberId(session);
-        if (id == null) {
-            id = SessionUtil.getLoginAdminId(session);
-        }
-        return Long.valueOf(id);
-    }
-
     @PutMapping("/logout")
     public void logout(HttpSession session) {
         SessionUtil.clear(session);
@@ -91,4 +83,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    private Long getId(HttpSession session) {
+        String id = SessionUtil.getLoginMemberId(session);
+        if (id == null) {
+            id = SessionUtil.getLoginAdminId(session);
+        }
+        return Long.valueOf(id);
+    }
 }
