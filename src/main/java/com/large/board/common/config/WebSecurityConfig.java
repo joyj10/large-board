@@ -23,10 +23,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable) //csrf 공격 보안 disable 처리 (csrf Cross Site Forgery 사이트 간 요청 위조)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 생성 정책 : RESTful API 적합한 설정
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                // static resou미rce 의 경우 모든 요청 허용 처리
+                                // static resource 의 경우 모든 요청 허용 처리
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 
                                 // swagger 인증 없이 통과 처리
