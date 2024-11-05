@@ -26,17 +26,17 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void register(UserSignUpRequest userProfile) {
-        boolean isDuplicatedId = isDuplicatedUserId(userProfile.getUserId());
+        boolean isDuplicatedId = isDuplicatedAccountId(userProfile.getAccountId());
         if (isDuplicatedId) {
             throw new DuplicateIdException("중복된 아이디입니다.");
         }
-        UserEntity userEntity = UserEntity.register(userProfile.getUserId(), userProfile.getPassword(), userProfile.getNickname());
+        UserEntity userEntity = UserEntity.register(userProfile.getAccountId(), userProfile.getPassword(), userProfile.getNickname());
         userRepository.save(userEntity);
     }
 
     @Override
-    public UserInfo login(String userId, String password) {
-        UserEntity userEntity = userRepository.findActiveUserByUserId(userId)
+    public UserInfo login(String accountId, String password) {
+        UserEntity userEntity = userRepository.findActiveUserByAccountId(accountId)
                 .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패했습니다."));
 
         validPassword(password, userEntity, "로그인에 실패했습니다.");
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isDuplicatedUserId(String userId) {
-        return userRepository.countByUserId(userId) > 0;
+    public boolean isDuplicatedAccountId(String accountId) {
+        return userRepository.countByAccountId(accountId) > 0;
     }
 
     @Override

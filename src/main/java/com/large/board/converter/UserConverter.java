@@ -12,10 +12,10 @@ public class UserConverter {
     public static UserInfo toUserInfo(UserEntity userEntity) {
         return UserInfo.builder()
                 .id(userEntity.getId())
-                .userId(userEntity.getUserId())
+                .accountId(userEntity.getAccountId())
                 .nickname(userEntity.getNickname())
                 .status(userEntity.getStatus())
-                .isAdmin(userEntity.getIsAdmin())
+                .isAdmin(userEntity.isAdmin())
                 .isWithdrawn(userEntity.getIsWithdrawn())
                 .createdDate(userEntity.getCreatedDate())
                 .updatedDate(userEntity.getUpdatedDate())

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserInfo {
     private Long id;
-    private String userId;
+    private String accountId;
     private String nickname;
     private boolean isAdmin;
     private boolean isWithdrawn;

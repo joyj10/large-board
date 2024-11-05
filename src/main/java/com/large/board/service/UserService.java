@@ -7,9 +7,9 @@ public interface UserService {
 
     void register(UserSignUpRequest userProfile);
 
-    UserInfo login(String id, String password);
+    UserInfo login(String accountId, String password);
 
-    boolean isDuplicatedUserId(String userId);
+    boolean isDuplicatedAccountId(String accountId);
 
     UserInfo getUserInfo(Long id);
 

@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    long countByUserId(String userId);
+    Optional<UserEntity> findByAccountId(String accountId);
 
-    @Query("select u from UserEntity u where u.userId = :userId and u.status != 'DELETED'")
-    Optional<UserEntity> findActiveUserByUserId(String userId);
+    long countByAccountId(String accountId);
 
-    @Query("select u from UserEntity u where u.id = :id and u.status != 'DELETED'")
+    @Query("select u from UserEntity u where u.accountId = :accountId and u.status <> 'DELETED'")
+    Optional<UserEntity> findActiveUserByAccountId(String accountId);
+
+    @Query("select u from UserEntity u where u.id = :id and u.status <> 'DELETED'")
     Optional<UserEntity> findActiveUserById(Long id);
 }
