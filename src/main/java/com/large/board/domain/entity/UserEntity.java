@@ -94,7 +94,7 @@ public class UserEntity implements UserDetails {
     // UserDetail 메서드
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(authority.name()));
+        return Collections.singleton(new SimpleGrantedAuthority(authority.getKey()));
     }
 
     public Boolean isAdmin() {
@@ -106,21 +106,25 @@ public class UserEntity implements UserDetails {
         return this.accountId;
     }
 
+    // 계정 만료 여부
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // 계정 lock 여부
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // 패스워드 만료 여부
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // 계정 활성화 여부
     @Override
     public boolean isEnabled() {
         return true;

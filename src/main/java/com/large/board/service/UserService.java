@@ -1,5 +1,6 @@
 package com.large.board.service;
 
+import com.large.board.domain.entity.UserEntity;
 import com.large.board.dto.request.UserSignUpRequest;
 import com.large.board.dto.response.UserInfo;
 
@@ -7,7 +8,7 @@ public interface UserService {
 
     void register(UserSignUpRequest userProfile);
 
-    UserInfo login(String accountId, String password);
+    UserEntity login(String accountId, String password);
 
     boolean isDuplicatedAccountId(String accountId);
 

@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo login(String accountId, String password) {
+    public UserEntity login(String accountId, String password) {
         UserEntity userEntity = userRepository.findActiveUserByAccountId(accountId)
                 .orElseThrow(() -> new UsernameNotFoundException("로그인에 실패했습니다."));
 
         validPassword(password, userEntity, "로그인에 실패했습니다.");
 
-        return UserConverter.toUserInfo(userEntity);
+        return userEntity;
     }
 
     // password 유효성

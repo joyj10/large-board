@@ -28,3 +28,7 @@ spring:
         physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         default_batch_fetch_size: 500
     database: mysql
+
+logging:
+  level:
+    root: debug
