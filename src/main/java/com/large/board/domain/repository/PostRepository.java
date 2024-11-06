@@ -1,9 +1,9 @@
 package com.large.board.domain.repository;
 
-import com.large.board.domain.entity.CategoryEntity;
+import com.large.board.domain.entity.PostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+public interface PostRepository extends JpaRepository<PostEntity, Long> {
 }
