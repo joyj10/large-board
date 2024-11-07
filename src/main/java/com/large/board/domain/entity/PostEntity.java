@@ -1,6 +1,7 @@
 package com.large.board.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,13 +24,13 @@ public class PostEntity {
     private Long id;
 
     @Column(nullable = false, length = 45)
-    private String name;  // 게시물 이름
-
-    @Column(nullable = false)
-    private boolean isAdmin = false;  // 관리자 여부
+    private String title;  // 게시물 이름
 
     @Column(nullable = false, length = 500)
     private String contents;  // 게시물 내용
+
+    @Column(nullable = false)
+    private boolean isAdmin = false;  // 관리자 여부
 
     @Column(nullable = false)
     private int views;  // 조회수
@@ -42,8 +43,9 @@ public class PostEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;  // 사용자
 
+
     @Column
-    private Integer fileId;  // 파일 ID
+    private Long fileId;  // 파일 ID
 
     @CreatedDate
     @Column(updatable = false)
@@ -51,13 +53,36 @@ public class PostEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedDate;  // 수정 시간
-//
-//    @Builder
-//    private PostEntity() {
-//
-//    }
-//
-//    public static PostEntity register(String name, String contents, )
-//
 
+    @Builder
+    private PostEntity(String title, String contents, int views, boolean isAdmin,
+                       CategoryEntity categoryEntity, UserEntity userEntity, Long fileId) {
+        this.title = title;
+        this.isAdmin = isAdmin;
+        this.contents = contents;
+        this.views = views;
+        this.categoryEntity = categoryEntity;
+        this.userEntity = userEntity;
+        this.fileId = fileId;
+    }
+
+    public static PostEntity create(@NotNull String title, @NotNull String contents, boolean isAdmin,
+                                    @NotNull CategoryEntity categoryEntity, @NotNull UserEntity userEntity, Long fileId) {
+        return PostEntity.builder()
+                .title(title)
+                .isAdmin(isAdmin)
+                .contents(contents)
+                .views(0)
+                .categoryEntity(categoryEntity)
+                .userEntity(userEntity)
+                .fileId(fileId)
+                .build();
+    }
+
+    public void update(@NotNull String title, @NotNull String contents, @NotNull CategoryEntity categoryEntity, Long fileId) {
+        this.title = title;
+        this.contents = contents;
+        this.categoryEntity = categoryEntity;
+        this.fileId = fileId;
+    }
 }

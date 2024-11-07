@@ -11,14 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {
-    private int id;
-    private String name;
-    private int isAdmin;
+    private Long id;
+    private String title;
     private String contents;
+    private boolean isAdmin;
     private int views;
-    private int categoryId;
-    private int userId;
-    private int fileId;
+    private String categoryName;
+    private String userName;
+    private String userAccountId;
+    private Long fileId;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

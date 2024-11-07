@@ -1,11 +1,7 @@
 package com.large.board.domain.entity;
 
-import com.large.board.common.code.UserStatus;
 import com.large.board.common.exception.BadRequestException;
-import com.large.board.common.utils.PasswordEncryptor;
-import com.large.board.service.CategoryService;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +10,6 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 
@@ -48,7 +43,7 @@ public class CategoryEntity {
         this.isDeleted = isDeleted;
     }
 
-    public static CategoryEntity register(String name) {
+    public static CategoryEntity create(String name) {
         validName(name);
         return CategoryEntity.builder()
                 .name(name)

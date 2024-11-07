@@ -20,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Long register(CategoryRequest categoryRequest) {
-        CategoryEntity categoryEntity = CategoryEntity.register(categoryRequest.getName());
+        CategoryEntity categoryEntity = CategoryEntity.create(categoryRequest.getName());
         return categoryRepository.save(categoryEntity).getId();
     }
 

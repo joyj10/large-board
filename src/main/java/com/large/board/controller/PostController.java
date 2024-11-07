@@ -1,13 +1,11 @@
 package com.large.board.controller;
 
-import com.large.board.common.code.Role;
 import com.large.board.domain.entity.UserEntity;
 import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostRequest;
 import com.large.board.dto.response.CommonResponse;
 import com.large.board.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +23,9 @@ public class PostController {
     public ResponseEntity<CommonResponse<Long>> register(@AuthenticationPrincipal UserEntity userEntity,
                                                          @RequestBody PostRequest postRequest) {
         Long userId = userEntity.getId();
-        Role authority = userEntity.getAuthority();
-        Long postId = postService.register(userId, authority, postRequest);
+        Boolean isAdmin = userEntity.isAdmin();
+
+        Long postId = postService.register(userId, isAdmin, postRequest);
         return ResponseEntity.ok(CommonResponse.ok(postId));
     }
 

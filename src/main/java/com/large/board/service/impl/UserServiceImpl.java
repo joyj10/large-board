@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
         if (isDuplicatedId) {
             throw new DuplicateIdException("중복된 아이디입니다.");
         }
-        UserEntity userEntity = UserEntity.register(userProfile.getAccountId(), userProfile.getPassword(), userProfile.getNickname());
+        UserEntity userEntity = UserEntity.create(userProfile.getAccountId(), userProfile.getPassword(), userProfile.getNickname());
         userRepository.save(userEntity);
     }
 

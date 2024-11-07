@@ -69,7 +69,7 @@ public class UserEntity implements UserDetails {
     }
 
     // 회원가입 전용 정적 메서드
-    public static UserEntity register(String accountId, String password, String nickname) {
+    public static UserEntity create(String accountId, String password, String nickname) {
         String encryptPassword = PasswordEncryptor.encrypt(password);
         return UserEntity.builder()
                 .accountId(accountId)

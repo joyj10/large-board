@@ -1,13 +1,12 @@
 package com.large.board.service;
 
-import com.large.board.common.code.Role;
 import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostRequest;
 
 import java.util.List;
 
 public interface PostService {
-    Long register(Long userId, Role authority, PostRequest postRequest);
+    Long register(Long userId, Boolean isAdmin, PostRequest postRequest);
 
     List<PostDTO> getMyPosts(Long userId);
 
