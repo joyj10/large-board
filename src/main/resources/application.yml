@@ -28,6 +28,18 @@ spring:
         physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         default_batch_fetch_size: 500
     database: mysql
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      repositories:
+        enabled: false
+redis:
+  expire:
+    default-time: 36000
 
 logging:
   level:
