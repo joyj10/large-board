@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Override
     @Transactional
+    @Override
     public void register(UserSignUpRequest userProfile) {
         boolean isDuplicatedId = isDuplicatedAccountId(userProfile.getAccountId());
         if (isDuplicatedId) {
@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
         return UserConverter.toUserInfo(userEntity);
     }
 
-    @Override
     @Transactional
+    @Override
     public void updatePassword(Long id, String beforePassword, String afterPassword) {
         UserEntity userEntity = getUserEntity(id);
 
@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("활성화된 사용자 정보가 없습니다."));
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteId(Long id, String password) {
         UserEntity userEntity = getUserEntity(id);
         validPassword(password, userEntity, "삭제를 진행할 수 없습니다.");

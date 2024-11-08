@@ -13,26 +13,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Override
     @Transactional
+    @Override
     public Long register(CategoryRequest categoryRequest) {
         CategoryEntity categoryEntity = CategoryEntity.create(categoryRequest.getName());
         return categoryRepository.save(categoryEntity).getId();
     }
 
-    @Override
     @Transactional
+    @Override
     public void update(Long categoryId, CategoryRequest categoryRequest) {
         CategoryEntity categoryEntity = getCategoryEntity(categoryId);
         categoryEntity.update(categoryRequest.getName());
     }
 
-    @Override
     @Transactional
+    @Override
     public void delete(Long categoryId) {
         CategoryEntity categoryEntity = getCategoryEntity(categoryId);
         categoryEntity.delete();

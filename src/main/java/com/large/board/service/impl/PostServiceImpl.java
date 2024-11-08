@@ -28,8 +28,8 @@ public class PostServiceImpl implements PostService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    @Override
     @Transactional
+    @Override
     public Long register(Long userId, Boolean isAdmin, PostRequest postRequest) {
         CategoryEntity categoryEntity = categoryRepository.getReferenceById(postRequest.getCategoryId());
         UserEntity userEntity = userRepository.getReferenceById(userId);
@@ -49,8 +49,8 @@ public class PostServiceImpl implements PostService {
         return PostConverter.toDto(postEntities);
     }
 
-    @Override
     @Transactional
+    @Override
     public void update(Long userId, Long postId, PostRequest postRequest) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
         PostEntity postEntity = postRepository.findByIdAndUserEntity(postId, userEntity)
@@ -61,8 +61,8 @@ public class PostServiceImpl implements PostService {
         postEntity.update(postRequest.getTitle(), postRequest.getContents(), categoryEntity, postRequest.getFileId());
     }
 
-    @Override
     @Transactional
+    @Override
     public void delete(Long userId, Long postId) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
         if (postRepository.countByIdAndUserEntity(postId, userEntity) == 0) {
