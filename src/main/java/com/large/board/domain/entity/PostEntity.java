@@ -11,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)  // 기본 생성자를 protected로 제한
@@ -43,9 +45,11 @@ public class PostEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;  // 사용자
 
-
     @Column
     private Long fileId;  // 파일 ID
+
+    @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CommentEntity> commentEntities = new ArrayList<>();
 
     @CreatedDate
     @Column(updatable = false)
@@ -53,6 +57,14 @@ public class PostEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedDate;  // 수정 시간
+
+    // 연관 관계 편의 메서드
+    public void addComments(List<CommentEntity> commentEntities) {
+        for (CommentEntity commentEntity : commentEntities) {
+            commentEntity.setPostEntity(this);
+            commentEntities.add(commentEntity);
+        }
+    }
 
     @Builder
     private PostEntity(String title, String contents, int views, boolean isAdmin,
