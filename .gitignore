@@ -44,3 +44,6 @@ bin/
 
 # SonarLint plugin
 .idea/sonarlint/
+
+## QueryDSL
+/src/main/generated/
