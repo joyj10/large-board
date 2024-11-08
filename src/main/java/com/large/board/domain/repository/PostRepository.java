@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PostRepository extends JpaRepository<PostEntity, Long> {
+public interface PostRepository extends JpaRepository<PostEntity, Long>, PostRepositoryCustom {
     List<PostEntity> findAllByUserEntity(UserEntity userEntity);
     Optional<PostEntity> findByIdAndUserEntity(Long id, UserEntity userEntity);
 

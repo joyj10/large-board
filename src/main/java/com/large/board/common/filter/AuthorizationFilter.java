@@ -23,7 +23,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         // 화이트리스트에 포함된 경로는 인증 검사를 하지 않음
         for (String whiteListPath : WHITE_LIST) {
-            whiteListPath = "/api" + whiteListPath.replace("**", "*"); // 정규식 와일드카드(*)로 변경
+            whiteListPath = "^/api" + whiteListPath.replace("**", ".*$"); // 정규식 와일드카드(*)로 변경
             if (requestURI.matches(whiteListPath)) {
                 filterChain.doFilter(request, response);
                 return; // 화이트리스트 경로일 경우, 필터링을 통과하고 이후 로직은 실행되지 않음

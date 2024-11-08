@@ -26,7 +26,7 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
         physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-        default_batch_fetch_size: 500
+        default_batch_fetch_size: 100
     database: mysql
   cache:
     type: redis
