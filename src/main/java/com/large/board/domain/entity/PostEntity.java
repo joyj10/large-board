@@ -51,6 +51,9 @@ public class PostEntity {
     @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> commentEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY)
+    private List<PostTagEntity> postTagEntities = new ArrayList<>();
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdDate;  // 생성 시간
