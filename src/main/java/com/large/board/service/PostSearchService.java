@@ -2,9 +2,9 @@ package com.large.board.service;
 
 import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostSearchRequest;
-
-import java.util.List;
+import com.large.board.dto.response.PageResponse;
+import org.springframework.data.domain.Page;
 
 public interface PostSearchService {
-    List<PostDTO> searchPosts(PostSearchRequest postSearchRequest);
+    PageResponse<PostDTO> searchPosts(PostSearchRequest postSearchRequest);
 }

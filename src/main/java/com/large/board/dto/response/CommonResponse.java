@@ -18,5 +18,4 @@ public class CommonResponse<T> {
     public static<T> CommonResponse<T> ok(T requestBody) {
         return new CommonResponse<>(HttpStatus.OK, "SUCCESS", null, requestBody);
     }
-
 }

@@ -42,8 +42,6 @@ class PostSearchServiceImplTest {
     @Autowired
     private CacheManager cacheManager;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     private UserEntity userEntity;
     private CategoryEntity categoryEntity;
 

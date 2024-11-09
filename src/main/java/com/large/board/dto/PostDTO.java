@@ -3,6 +3,7 @@ package com.large.board.dto;
 import com.large.board.dto.response.TagDTO;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDTO {
+public class PostDTO implements Serializable {
     private Long id;
     private String title;
     private String contents;

@@ -16,6 +16,13 @@ public class PostSearchRequest {
     private Long categoryId;
     private Long userId;
 
+    // 페이지 조회 조건
+    @Builder.Default
+    private int page = 0;
+
+    @Builder.Default
+    private int size = 50;
+
     // 정렬 조건
     private SortStatus sortStatus;
 }

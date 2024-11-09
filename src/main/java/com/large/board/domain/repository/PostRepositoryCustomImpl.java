@@ -7,6 +7,11 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +24,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostEntity> searchPosts(PostSearchRequest searchRequest) {
-        return queryFactory
+    public Page<PostEntity> searchPosts(PostSearchRequest searchRequest) {
+        Pageable pageable = PageRequest.of(searchRequest.getPage(), searchRequest.getSize());
+
+        List<PostEntity> postEntities = queryFactory
                 .selectFrom(postEntity)
                 .where(
                         containsByTitle(searchRequest.getTitleKeyword()),
@@ -29,15 +36,30 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                         eqUserId(searchRequest.getUserId())
                 )
                 .orderBy(getOrderSpecifiers(searchRequest.getSortStatus()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        long total = queryFactory
+                .select(postEntity.count())
+                .from(postEntity)
+                .where(
+                        containsByTitle(searchRequest.getTitleKeyword()),
+                        containsByContents(searchRequest.getContentKeyword()),
+                        eqCategoryId(searchRequest.getCategoryId()),
+                        eqUserId(searchRequest.getUserId())
+                )
+                .fetchOne();
+
+        return new PageImpl<>(postEntities, pageable, total);
     }
 
     private BooleanExpression containsByTitle(String keyword) {
-        return keyword != null ? postEntity.title.contains(keyword) : null;
+        return Strings.isBlank(keyword) ? null : postEntity.title.contains(keyword);
     }
 
     private BooleanExpression containsByContents(String keyword) {
-        return keyword != null ? postEntity.contents.contains(keyword) : null;
+        return Strings.isBlank(keyword) ? null : postEntity.contents.contains(keyword);
     }
 
     private BooleanExpression eqCategoryId(Long id) {
