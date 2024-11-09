@@ -20,7 +20,7 @@ public class PostController {
 
     @PostMapping
     public CommonResponse<Long> register(@AuthenticationPrincipal UserEntity userEntity,
-                                                         @RequestBody PostRequest postRequest) {
+                                         @RequestBody PostRequest postRequest) {
         Long userId = userEntity.getId();
         Boolean isAdmin = userEntity.isAdmin();
 

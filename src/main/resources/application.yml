@@ -13,7 +13,7 @@ spring:
     username: board
     password: board1234
     hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 100
       minimum-idle: 5
       idle-timeout: 30000
       connection-timeout: 30000
@@ -39,8 +39,8 @@ spring:
         enabled: false
 redis:
   expire:
-    default-time: 36000
+    default-time: 600
 
 logging:
   level:
-    root: debug
+    root: info
