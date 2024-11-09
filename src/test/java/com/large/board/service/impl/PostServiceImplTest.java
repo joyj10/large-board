@@ -9,6 +9,7 @@ import com.large.board.domain.repository.PostRepository;
 import com.large.board.domain.repository.UserRepository;
 import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostRequest;
+import com.large.board.dto.request.TagRequest;
 import com.large.board.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +52,10 @@ class PostServiceImplTest {
     @DisplayName("게시글 등록 성공 테스트")
     void register() {
         // given
-        PostRequest postRequest = new PostRequest("Test Title", "Test Contents", categoryEntity.getId(), null);
+        List<TagRequest> tagRequests = new ArrayList<>();
+        tagRequests.add(TagRequest.builder().name("tag").url("url").build());
+
+        PostRequest postRequest = new PostRequest("Test Title", "Test Contents", categoryEntity.getId(), null, tagRequests);
 
         // when
         Long postId = postService.register(userEntity.getId(), false, postRequest);
@@ -59,6 +64,8 @@ class PostServiceImplTest {
         PostEntity savedPost = postRepository.findById(postId).orElseThrow();
         assertEquals("Test Title", savedPost.getTitle());
         assertEquals(userEntity.getId(), savedPost.getUserEntity().getId());
+        assertEquals(tagRequests.get(0).getName(), savedPost.getPostTagEntities().get(0).getTagEntity().getName());
+
     }
 
     @Test
@@ -80,9 +87,12 @@ class PostServiceImplTest {
     @DisplayName("게시글 수정 성공 테스트")
     void update() {
         // given
+        List<TagRequest> tagRequests = new ArrayList<>();
+        tagRequests.add(TagRequest.builder().name("tag").url("url").build());
+
         PostEntity post = postRepository.save(PostEntity.create("Old Title", "Old Contents", false, categoryEntity, userEntity, null));
         CategoryEntity categoryEntity2 = categoryRepository.save(CategoryEntity.create("Test Category2"));
-        PostRequest postRequest = new PostRequest("Updated Title", "Updated Contents", categoryEntity2.getId(), null);
+        PostRequest postRequest = new PostRequest("Updated Title", "Updated Contents", categoryEntity2.getId(), null, tagRequests);
 
         // when
         postService.update(userEntity.getId(), post.getId(), postRequest);
@@ -98,9 +108,12 @@ class PostServiceImplTest {
     @DisplayName("게시글 수정 실패 테스트 - 게시글 없을 경우 예외 발생")
     void update_NotFound() {
         // given
+        List<TagRequest> tagRequests = new ArrayList<>();
+        tagRequests.add(TagRequest.builder().name("tag").url("url").build());
+
         Long nonExistentPostId = 999L;
         Long userId = userEntity.getId();
-        PostRequest postRequest = new PostRequest("Title", "Contents", categoryEntity.getId(), null);
+        PostRequest postRequest = new PostRequest("Title", "Contents", categoryEntity.getId(), null, tagRequests);
 
 
         // when & then

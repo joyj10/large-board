@@ -32,7 +32,7 @@ public class TagEntity {
     @Column(name = "url", nullable = false, length = 45)
     private String url;
 
-    @OneToMany(mappedBy = "tagEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tagEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PostTagEntity> postTagEntities = new ArrayList<>();
 
     @CreatedDate

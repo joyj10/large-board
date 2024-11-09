@@ -1,12 +1,15 @@
 package com.large.board.dto;
 
+import com.large.board.dto.response.TagDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {
@@ -21,21 +24,5 @@ public class PostDTO {
     private Long fileId;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-
-    @Override
-    public String toString() {
-        return "PostDTO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", contents='" + contents + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", views=" + views +
-                ", categoryName='" + categoryName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userAccountId='" + userAccountId + '\'' +
-                ", fileId=" + fileId +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
+    private List<TagDTO> tags;
 }

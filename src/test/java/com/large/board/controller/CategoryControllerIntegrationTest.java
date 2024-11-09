@@ -30,7 +30,7 @@ class CategoryControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     @DisplayName("카테고리 등록 성공 테스트")
     void test_register() throws Exception {
         // given
@@ -45,7 +45,7 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     @DisplayName("카테고리 등록 실패 테스트 - 유효성 검사 실패")
     void test_registerFailure_return400() throws Exception {
         // given
@@ -60,7 +60,7 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     @DisplayName("카테고리 수정 성공 테스트")
     void test_update() throws Exception {
         // given
@@ -75,7 +75,7 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     @DisplayName("카테고리 수정 실패 테스트 - 유효성 검사 실패")
     void test_updateFailure_return400() throws Exception {
         // given
@@ -90,7 +90,7 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     @DisplayName("카테고리 삭제 성공 테스트")
     void test_delete() throws Exception {
         Long categoryId = categoryService.register(new CategoryRequest("테스트 카테고리"));

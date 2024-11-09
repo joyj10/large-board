@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -22,4 +24,6 @@ public class PostRequest {
     private Long categoryId;
 
     private Long fileId;
+
+    private List<TagRequest> tags;
 }

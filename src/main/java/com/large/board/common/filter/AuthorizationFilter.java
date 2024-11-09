@@ -1,13 +1,13 @@
 package com.large.board.common.filter;
 
 import com.large.board.common.exception.UnauthorizedException;
-import com.large.board.domain.entity.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -32,7 +32,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !(authentication.getPrincipal() instanceof UserEntity)) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
             throw new UnauthorizedException("인증이 되어 있지 않습니다.");
         }
         filterChain.doFilter(request, response);

@@ -51,7 +51,7 @@ public class PostEntity {
     @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> commentEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PostTagEntity> postTagEntities = new ArrayList<>();
 
     @CreatedDate
@@ -67,6 +67,16 @@ public class PostEntity {
             commentEntity.setPostEntity(this);
             commentEntities.add(commentEntity);
         }
+    }
+
+    public void addTag(TagEntity tagEntity) {
+        PostTagEntity postTagEntity = PostTagEntity.create(this, tagEntity);
+        this.postTagEntities.add(postTagEntity);
+        tagEntity.getPostTagEntities().add(postTagEntity);
+    }
+
+    public void removeTags() {
+        this.postTagEntities = new ArrayList<>();
     }
 
     @Builder
