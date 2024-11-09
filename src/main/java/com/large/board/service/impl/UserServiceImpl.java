@@ -10,12 +10,12 @@ import com.large.board.dto.request.UserSignUpRequest;
 import com.large.board.dto.response.UserInfo;
 import com.large.board.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

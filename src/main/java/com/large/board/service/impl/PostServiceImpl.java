@@ -15,14 +15,14 @@ import com.large.board.dto.request.PostRequest;
 import com.large.board.dto.request.TagRequest;
 import com.large.board.service.PostService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

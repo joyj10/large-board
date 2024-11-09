@@ -8,13 +8,14 @@ import com.large.board.dto.request.PostSearchRequest;
 import com.large.board.dto.response.PageResponse;
 import com.large.board.service.PostSearchService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -28,6 +29,7 @@ public class PostSearchServiceImpl implements PostSearchService {
     )
     @Override
     public PageResponse<PostDTO> searchPosts(PostSearchRequest postSearchRequest) {
+        log.debug("no cache");
         Page<PostEntity> postEntities = postRepository.searchPosts(postSearchRequest);
         Page<PostDTO> dtos = PostConverter.toDto(postEntities);
         return PageResponse.convert(dtos);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <!-- 해당 설정파일에서 사용하는 프로퍼티들 정의 -->
+    <Properties>
+        <!-- 로그 이름을 설정. 로그 파일 이름 등에 사용 -->
+        <Property name="logNm">Board-Server-log4j2</Property> <!-- 로그 이름 -->
+        <!-- 로그의 형식을 지정하는 패턴 설정 -->
+        <Property name="layoutPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+            ERROR=red,
+            INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow}- %m%n -</Property>
+    </Properties>
+
+    <!-- 로그를 어떻게 출력할지 설정하는 Appender들 정의 -->
+    <Appenders>
+        <!-- 콘솔에 로그를 출력하는 Appender -->
+        <Console name="Console_Appender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${layoutPattern}"/> <!-- 로그 출력 형식 지정 -->
+        </Console>
+
+        <!-- 파일에 로그를 출력하는 RollingFile Appender -->
+        <RollingFile name="File_Appender" fileName="logs/${logNm}.log"
+                     filePattern="logs/${logNm}_%d{yyyy-MM-dd}_%i.log.gz">
+            <!-- 로그 출력 형식 지정 -->
+            <PatternLayout pattern="${layoutPattern}"/>
+
+            <!-- 로그 파일의 롤링 정책 정의 -->
+            <Policies>
+                <!-- 파일 크기가 1MB 초과 시 롤링 시작 -->
+                <SizeBasedTriggeringPolicy size="1MB"/>
+                <!-- 하루 단위로 롤링을 하도록 설정 -->
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+
+            <!-- 롤링 전략을 정의: 최대 10개의 롤링 파일 보관 -->
+            <DefaultRolloverStrategy max="10" fileIndex="min"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- 실제 로거 설정 -->
+    <Loggers>
+        <!-- Root 로거: 기본 로거 -->
+        <Root level="INFO" additivity="false">
+            <!-- 콘솔과 파일에 로그를 출력하도록 설정 -->
+            <AppenderRef ref="Console_Appender"/>
+            <AppenderRef ref="File_Appender"/>
+        </Root>
+
+        <!-- Spring 관련 로깅 설정: DEBUG 레벨로 설정 -->
+        <Logger name="org.springframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+            <AppenderRef ref="File_Appender"/>
+        </Logger>
+
+        <!-- 특정 패키지에 대한 로깅 설정: 오류만 기록 -->
+        <Logger name="com.fucct" level="ERROR" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+            <AppenderRef ref="File_Appender"/>
+        </Logger>
+
+        <!-- 특정 클래스에 대한 로깅 설정: TRACE 레벨로 설정 -->
+        <Logger name="com.fucct.springlog4j2.loggertest" level="TRACE" additivity="false">
+            <!-- 콘솔에만 출력하도록 설정 -->
+            <AppenderRef ref="Console_Appender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
