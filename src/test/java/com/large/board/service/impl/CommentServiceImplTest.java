@@ -1,6 +1,5 @@
 package com.large.board.service.impl;
 
-import com.large.board.common.exception.EmptyDataException;
 import com.large.board.domain.entity.CategoryEntity;
 import com.large.board.domain.entity.CommentEntity;
 import com.large.board.domain.entity.PostEntity;
@@ -115,7 +114,7 @@ class CommentServiceImplTest {
         // when & then
         Long userId = userEntity.getId();
         Long commentId = comment.getId();
-        assertThrows(EmptyDataException.class, () -> {
+        assertThrows(EntityNotFoundException.class, () -> {
             commentService.update(userId, commentId, updateRequest);
         });
     }
@@ -139,7 +138,7 @@ class CommentServiceImplTest {
     void deleteComment_Fail_NotFound() {
         // when & then
         Long userId = userEntity.getId();
-        assertThrows(EmptyDataException.class, () -> {
+        assertThrows(EntityNotFoundException.class, () -> {
             commentService.delete(userId, 999L);  // 존재하지 않는 댓글 ID
         });
     }
@@ -155,7 +154,7 @@ class CommentServiceImplTest {
         // when & then
         Long userId = userEntity.getId();
         Long commentId = comment.getId();
-        assertThrows(EmptyDataException.class, () -> {
+        assertThrows(EntityNotFoundException.class, () -> {
             commentService.delete(userId, commentId);
         });
     }

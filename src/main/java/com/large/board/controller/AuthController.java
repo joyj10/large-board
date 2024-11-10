@@ -3,12 +3,12 @@ package com.large.board.controller;
 import com.large.board.common.utils.SessionUtil;
 import com.large.board.domain.entity.UserEntity;
 import com.large.board.dto.request.UserLoginRequest;
+import com.large.board.dto.response.CommonResponse;
 import com.large.board.dto.response.LoginResponse;
 import com.large.board.dto.response.UserInfo;
 import com.large.board.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +25,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody UserLoginRequest userLoginRequest,
+    public CommonResponse<LoginResponse> login(@RequestBody UserLoginRequest userLoginRequest,
                                                HttpSession session) {
         String accountId = userLoginRequest.getAccountId();
         String password = userLoginRequest.getPassword();
@@ -43,7 +43,7 @@ public class AuthController {
         session.setAttribute("userId", userId); // 세션에 사용자 ID 저장
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
-        return ResponseEntity.ok(LoginResponse.success(new UserInfo()));
+        return CommonResponse.ok(LoginResponse.success(new UserInfo()));
     }
 
     @PostMapping("/logout")

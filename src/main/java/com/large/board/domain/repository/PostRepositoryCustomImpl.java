@@ -31,9 +31,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .selectFrom(postEntity)
                 .where(
                         containsByTitle(searchRequest.getTitleKeyword()),
-                        containsByContents(searchRequest.getContentKeyword()),
-                        eqCategoryId(searchRequest.getCategoryId()),
-                        eqUserId(searchRequest.getUserId())
+                        eqCategoryId(searchRequest.getCategoryId())
                 )
                 .orderBy(getOrderSpecifiers(searchRequest.getSortStatus()))
                 .offset(pageable.getOffset())
@@ -45,9 +43,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .from(postEntity)
                 .where(
                         containsByTitle(searchRequest.getTitleKeyword()),
-                        containsByContents(searchRequest.getContentKeyword()),
-                        eqCategoryId(searchRequest.getCategoryId()),
-                        eqUserId(searchRequest.getUserId())
+                        eqCategoryId(searchRequest.getCategoryId())
                 )
                 .fetchOne();
 
@@ -58,16 +54,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return Strings.isBlank(keyword) ? null : postEntity.title.contains(keyword);
     }
 
-    private BooleanExpression containsByContents(String keyword) {
-        return Strings.isBlank(keyword) ? null : postEntity.contents.contains(keyword);
-    }
-
     private BooleanExpression eqCategoryId(Long id) {
         return (id != null && id != 0L)? postEntity.categoryEntity.id.eq(id) : null;
-    }
-
-    private BooleanExpression eqUserId(Long id) {
-        return (id != null && id != 0L) ? postEntity.userEntity.id.eq(id) : null;
     }
 
     private OrderSpecifier<?>[] getOrderSpecifiers(SortStatus sortStatus) {

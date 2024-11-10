@@ -1,6 +1,5 @@
 package com.large.board.service.impl;
 
-import com.large.board.common.exception.EmptyDataException;
 import com.large.board.domain.entity.CategoryEntity;
 import com.large.board.domain.entity.PostEntity;
 import com.large.board.domain.entity.TagEntity;
@@ -11,6 +10,7 @@ import com.large.board.domain.repository.TagRepository;
 import com.large.board.domain.repository.UserRepository;
 import com.large.board.dto.request.TagRequest;
 import com.large.board.service.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -77,7 +77,7 @@ class TagServiceImplTest {
         TagRequest tagRequest = new TagRequest("Invalid Tag", "test url", -1L);
 
         // when & then
-        assertThrows(EmptyDataException.class, () -> tagService.register(userId, tagRequest));
+        assertThrows(EntityNotFoundException.class, () -> tagService.register(userId, tagRequest));
     }
 
     @Test
@@ -105,7 +105,7 @@ class TagServiceImplTest {
         TagRequest updateRequest = new TagRequest("Non-Existent Tag", "test url", postId);
 
         // when & then
-        assertThrows(EmptyDataException.class, () -> tagService.update(-1L, updateRequest));
+        assertThrows(EntityNotFoundException.class, () -> tagService.update(-1L, updateRequest));
     }
 
     @Test
@@ -126,6 +126,6 @@ class TagServiceImplTest {
     @DisplayName("태그 삭제 실패 테스트 - 존재하지 않는 태그")
     void deleteTag_Fail_NoTag() {
         // given, when & then
-        assertThrows(EmptyDataException.class, () -> tagService.delete(-1L));
+        assertThrows(EntityNotFoundException.class, () -> tagService.delete(-1L));
     }
 }

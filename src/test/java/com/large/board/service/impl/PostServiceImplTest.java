@@ -1,6 +1,5 @@
 package com.large.board.service.impl;
 
-import com.large.board.common.exception.EmptyDataException;
 import com.large.board.domain.entity.CategoryEntity;
 import com.large.board.domain.entity.PostEntity;
 import com.large.board.domain.entity.UserEntity;
@@ -11,6 +10,7 @@ import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostRequest;
 import com.large.board.dto.request.TagRequest;
 import com.large.board.service.PostService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,8 +119,8 @@ class PostServiceImplTest {
         // when & then
         try {
             postService.update(userId, nonExistentPostId, postRequest);
-            fail("Expected an EmptyDataException to be thrown");
-        } catch (EmptyDataException e) {
+            fail("Expected an EntityNotFoundException to be thrown");
+        } catch (EntityNotFoundException e) {
             assertEquals("수정 요청하신 게시글이 없습니다.", e.getMessage());
         }
     }
@@ -148,8 +148,8 @@ class PostServiceImplTest {
         // when & then
         try {
             postService.delete(userId, nonExistentPostId);
-            fail("Expected an EmptyDataException to be thrown");
-        } catch (EmptyDataException e) {
+            fail("Expected an EntityNotFoundException to be thrown");
+        } catch (EntityNotFoundException e) {
             assertEquals("삭제 요청하신 게시글이 없습니다.", e.getMessage());
         }
     }

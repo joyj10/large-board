@@ -1,6 +1,5 @@
 package com.large.board.service.impl;
 
-import com.large.board.common.exception.EmptyDataException;
 import com.large.board.domain.entity.CommentEntity;
 import com.large.board.domain.entity.PostEntity;
 import com.large.board.domain.entity.UserEntity;
@@ -10,6 +9,7 @@ import com.large.board.domain.repository.UserRepository;
 import com.large.board.dto.request.CommentRequest;
 import com.large.board.dto.request.CommentUpdateRequest;
 import com.large.board.service.CommentService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Long register(Long userId, CommentRequest commentRequest) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
-        PostEntity postEntity = postRepository.getReferenceById(commentRequest.getPostId());
+        PostEntity postEntity = postRepository.findById(commentRequest.getPostId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글이 없습니다."));
 
         Long parentCommentId = commentRequest.getParentCommentId();
         CommentEntity parentCommentEntity = (parentCommentId != null && parentCommentId != 0) ? commentRepository.getReferenceById(parentCommentId) : null;
@@ -55,6 +56,6 @@ public class CommentServiceImpl implements CommentService {
     private CommentEntity getCommentEntity(Long userId, Long commentId) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
         return commentRepository.findByIdAndUserEntity(commentId, userEntity)
-                .orElseThrow(() -> new EmptyDataException("해당 댓글이 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 댓글이 없습니다."));
     }
 }

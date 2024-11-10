@@ -1,6 +1,5 @@
 package com.large.board.service.impl;
 
-import com.large.board.common.exception.EmptyDataException;
 import com.large.board.converter.PostConverter;
 import com.large.board.domain.entity.CategoryEntity;
 import com.large.board.domain.entity.PostEntity;
@@ -14,6 +13,7 @@ import com.large.board.dto.PostDTO;
 import com.large.board.dto.request.PostRequest;
 import com.large.board.dto.request.TagRequest;
 import com.large.board.service.PostService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.CacheEvict;
@@ -71,7 +71,7 @@ public class PostServiceImpl implements PostService {
     public void update(Long userId, Long postId, PostRequest postRequest) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
         PostEntity postEntity = postRepository.findByIdAndUserEntity(postId, userEntity)
-                .orElseThrow(() -> new EmptyDataException("수정 요청하신 게시글이 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("수정 요청하신 게시글이 없습니다."));
 
         CategoryEntity categoryEntity = categoryRepository.getReferenceById(postRequest.getCategoryId());
 
@@ -90,7 +90,7 @@ public class PostServiceImpl implements PostService {
     public void delete(Long userId, Long postId) {
         UserEntity userEntity = userRepository.getReferenceById(userId);
         if (postRepository.countByIdAndUserEntity(postId, userEntity) == 0) {
-            throw new EmptyDataException("삭제 요청하신 게시글이 없습니다.");
+            throw new EntityNotFoundException("삭제 요청하신 게시글이 없습니다.");
         }
         postRepository.deleteById(postId);
     }
