@@ -9,7 +9,6 @@ import com.large.board.dto.response.PageResponse;
 import com.large.board.service.PostSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,12 @@ public class PostSearchServiceImpl implements PostSearchService {
 
     @Cacheable(
             value = "searchPosts",
-            key = "'searchPosts:' + T(org.springframework.util.DigestUtils).md5DigestAsHex((#postSearchRequest.getTitleKeyword() + #postSearchRequest.getContentKeyword() +#postSearchRequest.getCategoryId() + #postSearchRequest.getUserId() +#postSearchRequest.getSortStatus() +#postSearchRequest.getPage() + #postSearchRequest.getSize()).getBytes())"
-    )
+            key = "'searchPosts:' + T(org.springframework.util.DigestUtils).md5DigestAsHex((#request.titleKeyword +#request.categoryId +#request.sortStatus +#request.page +#request.size).getBytes())"
+            )
     @Override
-    public PageResponse<PostDTO> searchPosts(PostSearchRequest postSearchRequest) {
+    public Page<PostDTO> searchPosts(PostSearchRequest request) {
         log.debug("no cache");
-        Page<PostEntity> postEntities = postRepository.searchPosts(postSearchRequest);
-        Page<PostDTO> dtos = PostConverter.toDto(postEntities);
-        return PageResponse.convert(dtos);
+        Page<PostEntity> postEntities = postRepository.searchPosts(request);
+        return PostConverter.toDto(postEntities);
     }
 }

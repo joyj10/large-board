@@ -1,5 +1,6 @@
 package com.large.board.common.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -36,6 +37,7 @@ public class RedisConfig {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 타임스탬프 사용하지 않게 하기 위한 설정
         mapper.registerModule(new JavaTimeModule());    // 자바의 날짜 값을 인식 하도록 세팅
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 알 수 없는 프로퍼티에 대해 오류를 발생시키지 않음
         return mapper;
     }
 

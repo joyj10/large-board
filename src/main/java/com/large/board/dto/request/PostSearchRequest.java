@@ -12,9 +12,7 @@ import lombok.*;
 public class PostSearchRequest {
     // 필터링 조건
     private String titleKeyword;
-    private String contentKeyword;
     private Long categoryId;
-    private Long userId;
 
     // 페이지 조회 조건
     @Builder.Default

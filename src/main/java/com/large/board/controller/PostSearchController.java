@@ -6,6 +6,7 @@ import com.large.board.dto.response.CommonResponse;
 import com.large.board.dto.response.PageResponse;
 import com.large.board.service.PostSearchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class PostSearchController {
 
     @PostMapping
     public CommonResponse<PageResponse<PostDTO>> search(@RequestBody PostSearchRequest postSearchRequest) {
-        PageResponse<PostDTO> pageResponse = postSearchService.searchPosts(postSearchRequest);
-        return CommonResponse.ok(pageResponse);
+        Page<PostDTO> postPageResult = postSearchService.searchPosts(postSearchRequest);
+        return CommonResponse.ok(PageResponse.convert(postPageResult));
     }
 }
