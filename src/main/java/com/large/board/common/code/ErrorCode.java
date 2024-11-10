@@ -11,6 +11,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("USER_NOT_FOUND", "User not found."),
     UNAUTHORIZED("UNAUTHORIZED", "You are not authorized to access this resource."),
     INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "An unexpected error occurred."),
+    EXTERNAL_SERVER_ERROR("EXTERNAL_SERVER_ERROR", "An unexpected external error occurred."),
     BOARD_SERVER_ERROR("BOARD_SERVER_ERROR", "Board server error occurred."),
     METHOD_NOT_ALLOWED("METHOD_NOT_ALLOWED", "The HTTP method is not allowed."),
     FORBIDDEN("FORBIDDEN", "You do not have permission to access this resource."),

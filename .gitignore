@@ -49,3 +49,5 @@ bin/
 /src/main/generated/
 
 /logs/
+
+/src/main/resources/application-private.yml

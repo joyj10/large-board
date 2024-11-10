@@ -2,6 +2,7 @@ package com.large.board.common.exception.handler;
 
 import com.large.board.common.code.ErrorCode;
 import com.large.board.common.exception.BoardServerException;
+import com.large.board.common.exception.NoticeException;
 import com.large.board.dto.response.CommonResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.log4j.Log4j2;
@@ -70,5 +71,11 @@ public class CustomExceptionHandler {
     public CommonResponse<Void> handleInvalidArgumentException(IllegalArgumentException e) {
         log.error("Invalid argument: {}", e.getMessage());
         return CommonResponse.error(HttpStatus.BAD_REQUEST, e.getMessage(), ErrorCode.INVALID_INPUT);
+    }
+
+    @ExceptionHandler(NoticeException.class)
+    public CommonResponse<Void> handleNoticeException(NoticeException e) {
+        log.error("Notice Exception: {}", e.getMessage());
+        return CommonResponse.error(HttpStatus.BAD_GATEWAY, e.getMessage(), ErrorCode.EXTERNAL_SERVER_ERROR);
     }
 }

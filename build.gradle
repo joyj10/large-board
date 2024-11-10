@@ -56,6 +56,14 @@ dependencies {
 
     // log4j2 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    // aws sns
+    implementation 'software.amazon.awssdk:sns' // AWS SNS SDK v2
+    implementation platform('software.amazon.awssdk:bom:2.29.9')  // BOM으로 AWS SDK 버전 관리
+
+    // Spring Cloud AWS 의존성
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-messaging', version: '2.2.1.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '2.2.1.RELEASE'
 }
 
 tasks.named('test') {
