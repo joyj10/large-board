@@ -22,14 +22,15 @@ public class PostSearchServiceImpl implements PostSearchService {
 
     private final PostRepository postRepository;
 
-    @Cacheable(
-            value = "searchPosts",
-            key = "'searchPosts:' + T(org.springframework.util.DigestUtils).md5DigestAsHex((#request.titleKeyword +#request.categoryId +#request.sortStatus +#request.page +#request.size).getBytes())"
-            )
+//    @Cacheable(
+//            value = "searchPosts",
+//            key = "'searchPosts:' + T(org.springframework.util.DigestUtils).md5DigestAsHex((#request.titleKeyword +#request.categoryId +#request.sortStatus +#request.page +#request.size).getBytes())"
+//            )
     @Override
-    public Page<PostDTO> searchPosts(PostSearchRequest request) {
+    public PageResponse<PostDTO> searchPosts(PostSearchRequest request) {
         log.debug("no cache");
         Page<PostEntity> postEntities = postRepository.searchPosts(request);
-        return PostConverter.toDto(postEntities);
+        Page<PostDTO> dtos = PostConverter.toDto(postEntities);
+        return PageResponse.convert(dtos);
     }
 }

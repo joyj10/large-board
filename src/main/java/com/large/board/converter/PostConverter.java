@@ -40,5 +40,4 @@ public class PostConverter {
                 .map(PostConverter::toDto)
                 .toList();
     }
-
 }

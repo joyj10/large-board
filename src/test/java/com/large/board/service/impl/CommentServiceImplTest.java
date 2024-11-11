@@ -71,18 +71,6 @@ class CommentServiceImplTest {
     }
 
     @Test
-    @DisplayName("댓글 등록 실패 테스트 - 존재 하지 않는 사용자")
-    void registerComment_Fail_UserNotFound() {
-        // given
-        CommentRequest request = new CommentRequest("Test Comment", postEntity.getId(), null);
-
-        // when & then
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            commentService.register(999L, request);
-        });
-    }
-
-    @Test
     @DisplayName("댓글 수정 성공 테스트")
     void updateComment_Success() {
         // given

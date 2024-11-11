@@ -28,15 +28,15 @@ public class CommentEntity {
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private PostEntity postEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private UserEntity userEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id")
+    @JoinColumn(name = "parent_comment_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private CommentEntity parentCommentEntity;
 
     @CreatedDate

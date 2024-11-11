@@ -40,8 +40,8 @@ class CategoryControllerIntegrationTest {
         mockMvc.perform(post("/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryRequest)))
-                .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -55,8 +55,8 @@ class CategoryControllerIntegrationTest {
         mockMvc.perform(post("/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryRequest)))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -70,8 +70,8 @@ class CategoryControllerIntegrationTest {
         mockMvc.perform(patch("/categories/{categoryId}", categoryId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryRequest)))
-                .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -85,8 +85,8 @@ class CategoryControllerIntegrationTest {
         mockMvc.perform(patch("/categories/{categoryId}", existingCategoryId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryRequest)))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -96,6 +96,7 @@ class CategoryControllerIntegrationTest {
         Long categoryId = categoryService.register(new CategoryRequest("테스트 카테고리"));
 
         mockMvc.perform(delete("/categories/{categoryId}", categoryId))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

@@ -69,6 +69,10 @@ dependencies {
     implementation("com.slack.api:bolt:1.18.0")
     implementation("com.slack.api:bolt-servlet:1.18.0")
     implementation("com.slack.api:bolt-jetty:1.18.0")   // 비동기 프레임워크
+
+    // 테스트용 h2, redis
+    testImplementation 'com.h2database:h2'
+    testImplementation 'org.testcontainers:testcontainers:1.17.6'
 }
 
 tasks.named('test') {

@@ -23,7 +23,7 @@ import java.util.Collections;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)  // 기본 생성자를 protected로 제한
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity implements UserDetails {
 
