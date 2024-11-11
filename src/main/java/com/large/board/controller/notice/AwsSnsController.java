@@ -1,4 +1,4 @@
-package com.large.board.controller;
+package com.large.board.controller.notice;
 
 import com.large.board.dto.response.CommonResponse;
 import com.large.board.service.AwsSnsService;
